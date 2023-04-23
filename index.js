@@ -6,6 +6,7 @@ const team = require("./util/generateHtml");
 const inquirer = require("inquirer");
 
 const init = ()=>{
+    let empInfo = ""
     inquirer.prompt([
         {
             type:"input",
@@ -30,15 +31,44 @@ const init = ()=>{
         },
     ]).then(ans=>{
         console.log(ans);
-    //     if(ans.role === "Manager"){
-
-    //     }
-    //     if(ans.role === "Engineer"){
-
-    //     }
-    //     if(ans.role === "Intern"){
-
-    //     }
+        empInfo = ans;
+        console.log(empInfo);
+        if(ans.role === "Manager"){
+            inquirer.prompt([
+                {
+                    type:"input",
+                    message:"What is this manager's office number?",
+                    name:"officeNum"
+                }
+            ]).then(num=>{
+                const newManager = new Manager(empInfo.name,empInfo.id,empInfo.email,num.officeNum);
+                console.log(newManager);
+            })
+        }
+        if(ans.role === "Engineer"){
+            inquirer.prompt([
+                {
+                    type:"input",
+                    message:"What is this engineer's office GitHub?",
+                    name:"github"
+                }
+            ]).then(git=>{
+                const newEngineer = new Engineer(empInfo.name,empInfo.id,empInfo.email,git.github);
+                console.log(newEngineer);
+            })
+        }
+        if(ans.role === "Intern"){
+            inquirer.prompt([
+                {
+                    type:"input",
+                    message:"What is this intern's school?",
+                    name:"school"
+                }
+            ]).then(sch=>{
+                const newIntern = new Intern(empInfo.name,empInfo.id,empInfo.email,sch.school);
+                console.log(newIntern);
+            })
+        }
     })
 }
 
