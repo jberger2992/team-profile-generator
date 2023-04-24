@@ -5,7 +5,7 @@ const Manager = require("./lib/Manager");
 const team = require("./util/generateHtml");
 const inquirer = require("inquirer");
 
-const init = ()=>{
+const newMember = ()=>{
     let empInfo = ""
     inquirer.prompt([
         {
@@ -43,6 +43,7 @@ const init = ()=>{
             ]).then(num=>{
                 const newManager = new Manager(empInfo.name,empInfo.id,empInfo.email,num.officeNum);
                 console.log(newManager);
+                newOrDone()
             })
         }
         if(ans.role === "Engineer"){
@@ -55,6 +56,7 @@ const init = ()=>{
             ]).then(git=>{
                 const newEngineer = new Engineer(empInfo.name,empInfo.id,empInfo.email,git.github);
                 console.log(newEngineer);
+                newOrDone()
             })
         }
         if(ans.role === "Intern"){
@@ -67,9 +69,29 @@ const init = ()=>{
             ]).then(sch=>{
                 const newIntern = new Intern(empInfo.name,empInfo.id,empInfo.email,sch.school);
                 console.log(newIntern);
+                newOrDone()
             })
         }
     })
 }
 
-init();
+const newOrDone = ()=>{
+    inquirer.prompt([
+        {
+            type:"list",
+            message:"Add another team member or finish?",
+            name:"answer",
+            choices:["New Member","Finished"]
+        },
+    ]).then(ans=>{
+        console.log(ans);
+        if(ans.answer === "New Member"){
+            newMember();
+        }
+        if(ans.answer === "Finished"){
+            team();
+        }
+    })
+}
+
+newMember();
